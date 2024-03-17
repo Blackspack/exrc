@@ -153,7 +153,7 @@ function reactorcontrol()
 	end 
 end
 
-function tubinecontrol() --v0.1
+function tubinecontrol() --v1.0
 	local setRPM = 1
 	local status = 0
 	if energystatus >= poweroff then --on off
@@ -165,10 +165,10 @@ function tubinecontrol() --v0.1
 		for t in pairs(turbine) do
 			turbinePID(turbine[t])
 
-			if res >= 1 then
+			if res >= 3 then
 				tspeed[t] = tspeed[t]+(res-oldres)
-            elseif res <= -1 then 
-				tspeed[t] = tspeed[t]+(res-oldres)
+            elseif res <= -3 then 
+				tspeed[t] = tspeed[t]+(res+oldres)
 			end
 			peripheral.call(turbine[t],"setFluidFlowRateMax",tspeed[t])
 			setRPM = 1
@@ -176,10 +176,10 @@ function tubinecontrol() --v0.1
 	elseif energystatus <= 0.7 or fulldown==1 then
 		for t in pairs(turbine) do
 			turbinePIDeff(turbine[t])
-			if res >= 1 then
+			if res >= 3 then
 				tspeed[t] = tspeed[t]+(res-oldres)
-            elseif res <= -1 then 
-				tspeed[t] = tspeed[t]+(res-oldres)
+            elseif res <= -3 then 
+				tspeed[t] = tspeed[t]+(res+oldres)
 			end
 			peripheral.call(turbine[t],"setFluidFlowRateMax",tspeed[t])
 			setRPM = 0
@@ -231,7 +231,7 @@ end
 
 
 pid1 = pid(0.1,0.01, 0.005) -- PID settings
-pid2 = pid(0.2,0.001, 0.005)
+pid2 = pid(0.25,0.005, 0.005)
 function turbinePID(turbineC)
 	oldres = res
 	res=0
