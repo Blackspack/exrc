@@ -24,7 +24,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="exrc.lua" />
-    <Compile Include="startup.lua" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>
